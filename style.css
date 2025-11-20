@@ -21,7 +21,7 @@ nav{
 
 ul{
     display: flex;
-}
+}                                                       
 li{
     list-style: none;
     padding: 10px 25px 10px 10px;
@@ -40,6 +40,7 @@ li:hover{
 h1{
     text-align: center;
     color: dodgerblue;
+    font-size: 50px;
 }
 
 .buttons{
@@ -67,3 +68,7 @@ h1{
     background-color:rgb(117, 186, 255);
 }
 
+.character{
+    width: 150px;
+    height: 150px;
+}
