@@ -72,3 +72,24 @@ h1{
     width: 150px;
     height: 150px;
 }
+
+.about{
+    margin: auto;
+    text-align: center;
+    font-size: 25px;
+    color:rgba(11, 73, 94, 0.943);
+    width: 700px;
+}
+
+
+.about-btn{
+    margin: 20px 10px 10px 10px;
+    width: 200px;
+    height: 75px;
+    font-family: "Chewy", system-ui;
+    font-size: 25px;
+    background-color:dodgerblue;
+    color: aqua;
+    border-radius: 10px;
+    border-color: dodgerblue;
+}
