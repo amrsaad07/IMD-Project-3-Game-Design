@@ -12,8 +12,8 @@
   <link rel ="icon" type="image/png" href="/Images/pixel_character.svg">
 </head>
 
-<body onload="startGame()">
-    
+<body onload="Init()">
+
 
 <nav>
     <a href="index.html"><img src="Images/logo.png" alt="navbar-img" class="nav-img"></a>
@@ -25,6 +25,12 @@
 </nav>
 
 <main>
+<div class="score-container">
+  <p>Score:<p>
+
+  <p id="score">0</p>
+
+</div>
 <div class="canvas">
   <canvas id="myCanvas" width="600" height="600"
  style="border:1px solid #000000; background-color:rgb(0, 162, 255)">

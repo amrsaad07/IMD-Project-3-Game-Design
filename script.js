@@ -1,254 +1,137 @@
-// Hungry Hero - Cool Game Project 
-// Amr & Muhannad, 2025
 
 
-// SETUP
+//VARIABLES
 
-const canvas = document.getElementById("myCanvas");
-const ctx = canvas.getContext("2d");
+var canvas;
+var ctx;
+var player_img;
+var player_x = 0;
+var player_y = 0;
+var player_width = 50;
+var player_height = 50;
+var apple_img;
+var apple_x = 0;
+var apple_y = 100;
+var player_speed_x =20;
+var apple_speed_x = 20;
+var apple_speed_y = 20;
+var dead = false;
+var squareWidth = 50;
+var squareHeight = 40;
+var score_num;
 
-// just in case something goes wrong with the HTML
-if (!canvas || !ctx) {
-  console.error("Canvas or context not found. Check the canvas id in HTML.");
-}
+//CANVAS SQUARES LOOP
 
-// The Hungary (hero)
-const hero = {
-  x: 100,
-  y: 100,
-  baseWidth: 50,
-  baseHeight: 50,
-  scale: 1,
-  speed: 3,
-  vx: 0,
-  vy: 0
-};
-
-// treat settings 
-const TREAT_WIDTH = 40;
-const TREAT_HEIGHT = 40;
-
-const treat = {
-  x: 300,
-  y: 300
-};
-
-// score
-let score = 0;
-
-// grid setup
-const GRID_WIDTH = 60;
-const GRID_HEIGHT = 50;
-
-// images
-const heroImg = new Image();
-heroImg.src = "Images/pixel_character.svg";
-
-const treatImg = new Image();
-treatImg.src = "Images/Apple Treat.png"; 
-
-// sound effects
-const eatSound = new Audio("SFX/eat.mp3"); 
-
-let lastTime = 0;
-
-
-// INPUT ARROW KEYS
-
-
-window.addEventListener("keydown", function (event) {
-  switch (event.key) {
-    case "ArrowRight":
-      hero.vx = hero.speed;
-      hero.vy = 0;
-      break;
-    case "ArrowLeft":
-      hero.vx = -hero.speed;
-      hero.vy = 0;
-      break;
-    case "ArrowUp":
-      hero.vy = -hero.speed;
-      hero.vx = 0;
-      break;
-    case "ArrowDown":
-      hero.vy = hero.speed;
-      hero.vx = 0;
-      break;
-    default:
-      break;
-  }
-});
-
-
-// GAME START
-
-
-function startGame() {
-  console.log("Hungry Hero starting...");
-
-  score = 0;
-  hero.x = 100;
-  hero.y = 100;
-  hero.scale = 1;
-
-  spawnTreat();
-  window.requestAnimationFrame(gameLoop);
+function Init()
+{
+	canvas = document.getElementById("myCanvas");
+	ctx = canvas.getContext("2d");
+	player_img = new Image();
+	player_img.src = "Images/pixel_character.svg";
+	apple_img = new Image();
+	apple_img.src = "Images/Apple Treat.png";
 }
 
 
-// GAME LOOP
+//set main loop and frame rate
+setInterval(MainLoop, 100);
+window.addEventListener('keydown', KeyDown);
 
-
-function gameLoop(timestamp) {
-  const deltaTime = timestamp - lastTime;
-  lastTime = timestamp;
-
-  update(deltaTime);
-  draw();
-
-  window.requestAnimationFrame(gameLoop);
+//////////
+//Min loop
+//////////
+function MainLoop()
+{
+	Update();
+	Draw();
 }
+function Update()
+{
+  
+  if (player_x > 450){
+    player_speed_x *= -1;
+	}
+	if (player_x < 5){
+    player_speed_x *= -1;
+	}
 
+	apple_x +=apple_speed_x;
 
-// UPDATE LOGIC
+	if (apple_x > 550){
+		apple_speed_x *= -1;
+	}
+	if (apple_x < 5){
+		apple_speed_x *= -1;
+	}
 
-
-function update(deltaTime) {
-  // movement
-  hero.x += hero.vx;
-  hero.y += hero.vy;
-
-  keepHeroInsideCanvas();
-
-  // check if hero touches the treat
-  if (checkCollisionWithTreat()) {
-    handleTreatEaten();
-  }
-}
-
-function keepHeroInsideCanvas() {
-  const heroWidth = hero.baseWidth * hero.scale;
-  const heroHeight = hero.baseHeight * hero.scale;
-
-  if (hero.x < 0) hero.x = 0;
-  if (hero.y < 0) hero.y = 0;
-
-  if (hero.x + heroWidth > canvas.width) {
-    hero.x = canvas.width - heroWidth;
-  }
-
-  if (hero.y + heroHeight > canvas.height) {
-    hero.y = canvas.height - heroHeight;
-  }
-}
-
-function checkCollisionWithTreat() {
-  const heroWidth = hero.baseWidth * hero.scale;
-  const heroHeight = hero.baseHeight * hero.scale;
-
-  const treatX = treat.x;
-  const treatY = treat.y;
-  const treatWidth = TREAT_WIDTH;
-  const treatHeight = TREAT_HEIGHT;
-
-  // simple box collision (AABB)
-  return (
-    hero.x < treatX + treatWidth &&
-    hero.x + heroWidth > treatX &&
-    hero.y < treatY + treatHeight &&
-    hero.y + heroHeight > treatY
-  );
-}
-
-function handleTreatEaten() {
-  console.log("Snack collected!");
-
-  // grow the hero a bit
-  hero.scale += 0.1;
-
-  // increase score
-  score += 1;
-
-  // play sound (if browsers allow it)
-  try {
-    eatSound.currentTime = 0;
-    eatSound.play();
-  } catch (err) {
-    console.warn("Eat sound could not play:", err);
-  }
-
-  // respawn treat somewhere else
-  spawnTreat();
-}
-
-function spawnTreat() {
-  // keep treat fully inside canvas
-  treat.x = Math.random() * (canvas.width - TREAT_WIDTH);
-  treat.y = Math.random() * (canvas.height - TREAT_HEIGHT);
-}
-
-
-// DRAW FUNCTIONS
-
-
-function drawGrid() {
-  ctx.beginPath();
-
-  // basic grid background
-  for (let y = 0; y + GRID_HEIGHT <= canvas.height; y += GRID_HEIGHT) {
-    for (let x = 0; x + GRID_WIDTH <= canvas.width; x += GRID_WIDTH) {
-      ctx.rect(x, y, GRID_WIDTH, GRID_HEIGHT);
+    apple_y+=apple_speed_y
+  if (apple_y > 550){
+      apple_speed_y *= -1;
     }
-  }
+    if (apple_y < 5){
+      apple_speed_y *= -1;
+    }
 
-  ctx.strokeStyle = "black";
-  ctx.stroke();
+//collison
+	var distance2 = (player_x+apple_x)*(player_x-apple_x) + (player_y+apple_y)*(player_y-apple_y);
+	var distance = Math.sqrt(distance2)
+	if (distance < 20){
+		dead = true;
+	}
 }
 
-function drawHero() {
-  const heroWidth = hero.baseWidth * hero.scale;
-  const heroHeight = hero.baseHeight * hero.scale;
+function Draw()
+{
+  
+	ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  if (heroImg.complete && heroImg.naturalWidth > 0) {
-    ctx.drawImage(heroImg, hero.x, hero.y, heroWidth, heroHeight);
-  } else {
-    // fallback if image didn't load yet
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(hero.x, hero.y, heroWidth, heroHeight);
-  }
+  ctx.beginPath();
+  for (let y = 0; y + squareHeight <= canvas.height;y+= squareHeight){
+    for (let x =0; x + squareWidth <= canvas.width; x+= squareWidth){
+        ctx.rect(x,y,squareWidth,squareHeight);
+    }
 }
 
-function drawTreat() {
-  const w = TREAT_WIDTH;
-  const h = TREAT_HEIGHT;
+ctx.stroke();
 
-  if (treatImg.complete && treatImg.naturalWidth > 0) {
-    ctx.drawImage(treatImg, treat.x, treat.y, w, h);
-  } else {
-    // simple red square while image loads
-    ctx.fillStyle = "red";
-    ctx.fillRect(treat.x, treat.y, w, h);
-  }
+	ctx.drawImage(player_img,player_x,player_y,player_width,player_height);
+
+	if (dead == false){
+		ctx.drawImage(apple_img,apple_x,apple_y
+    ,50,50);
+	}
+
+  
 }
 
-function drawScore() {
-  ctx.font = "24px 'Chewy', cursive";
-  ctx.fillStyle = "white";
-  ctx.fillText("Score: " + score, 10, 30);
+//////////
+//Events
+//////////
+function KeyDown()
+{
 
-  // small outline so text is readable over the background
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-  ctx.strokeText("Score: " + score, 10, 30);
+  event.preventDefault();
+
+	if(event.key == "ArrowRight")
+	{
+		player_x+=20;
+	}
+	if(event.key == "ArrowLeft")
+	{
+		player_x -= 20;
+	}
+		if(event.key == "ArrowDown")
+	{
+		player_y += 20;
+	}
+		if(event.key == "ArrowUp")
+	{
+		player_y -= 20;
+	}
 }
 
-function draw() {
-  // clear canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // order: grid , treat , hero , score
-  drawGrid();
-  drawTreat();
-  drawHero();
-  drawScore();
-}
+
+//CHARACTER
+
+

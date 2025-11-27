@@ -115,6 +115,19 @@ h1{
     background-color:rgb(117, 186, 255);
 }
 
+.score-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: fl;
+  padding: 10px 10px 0px 10px;
+  margin-left: 20px;
+}
+
+.score-container p{
+  font-size: 30px;
+  margin-left: 5px;
+}
+
 .canvas{
     display: flex;
     justify-content: space-around;
