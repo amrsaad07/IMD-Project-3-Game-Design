@@ -23,6 +23,8 @@ var gameInterval = null;
 
 var grow_amount= 10;
 var max_hero_size= 150;
+var eat_sfx;
+
 function Init()
 {
 
@@ -34,6 +36,7 @@ function Init()
 
 	apple_img = new Image();
 	apple_img.src = "Images/Apple Treat.png";
+	eat_sfx = document.getElementById("eat-sfx")
 }
 
 
@@ -119,6 +122,10 @@ function respawnApple(){
 
 	dead = false;
 
+	if (eat_sfx){
+		eat_sfx.currentTime =0;
+		eat_sfx.play();
+	}
 	score ++;
 	document.getElementById("score").textContent = score;;
 player_width += grow_amount;
