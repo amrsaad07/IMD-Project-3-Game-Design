@@ -18,16 +18,17 @@ var apple_speed_y = 20;
 var dead = false;
 var squareWidth = 50;
 var squareHeight = 40;
-var score_num;
-
-//CANVAS SQUARES LOOP
+var score = 0;
 
 function Init()
 {
-	canvas = document.getElementById("myCanvas");
-	ctx = canvas.getContext("2d");
+
+	canvas = document.getElementById("myCanvas"); //Get Canvas from HTML
+	ctx = canvas.getContext("2d"); // Get Draiwng context
+
 	player_img = new Image();
 	player_img.src = "Images/pixel_character.svg";
+
 	apple_img = new Image();
 	apple_img.src = "Images/Apple Treat.png";
 }
@@ -35,6 +36,8 @@ function Init()
 
 //set main loop and frame rate
 setInterval(MainLoop, 100);
+
+//listening for keyboard input
 window.addEventListener('keydown', KeyDown);
 
 //////////
@@ -42,18 +45,22 @@ window.addEventListener('keydown', KeyDown);
 //////////
 function MainLoop()
 {
-	Update();
-	Draw();
+	Update(); //update game values
+	Draw(); // rendering everything
 }
 function Update()
 {
-  
+
+// ------------ PLAYER MOVEMENT ------------ \\
+
   if (player_x > 450){
     player_speed_x *= -1;
 	}
 	if (player_x < 5){
     player_speed_x *= -1;
 	}
+
+	// ------------ APPLE MOVEMENT ------------ \\
 
 	apple_x +=apple_speed_x;
 
@@ -65,25 +72,64 @@ function Update()
 	}
 
     apple_y+=apple_speed_y
-  if (apple_y > 550){
+
+	if (apple_y > 550){
       apple_speed_y *= -1;
     }
     if (apple_y < 5){
       apple_speed_y *= -1;
     }
 
-//collison
-	var distance2 = (player_x+apple_x)*(player_x-apple_x) + (player_y+apple_y)*(player_y-apple_y);
-	var distance = Math.sqrt(distance2)
-	if (distance < 20){
-		dead = true;
+// ------------ BORDER COLLISION ------------ \\
+
+	if (player_x < 0){
+		player_x = 0;
 	}
+
+	if (player_x + player_width > canvas.width){
+		player_x = canvas.width - player_width;
+	}
+
+	if (player_y < 0){
+		player_y = 0;
+	}
+
+	if (player_y + player_height > canvas.height){
+		player_y = canvas.height - player_height;
+	}
+
+	// ------------ COLISSION PLAYER VS APPLE ------------ \\
+
+	//Calculating distance between player and apple
+	var dx = player_x - apple_x;
+	var dy = player_y - apple_y;
+	var distance = Math.sqrt(dx*dx + dy*dy);
+	if (distance < 20){
+		respawnApple();
+	}
+}
+
+function respawnApple(){
+	apple_x=0;
+
+	apple_y = Math.random() * (canvas.height - 50);
+
+	apple_speed_x = 20;
+
+	dead = false;
+
+	score ++;
+	document.getElementById("score").textContent = score;;
+
 }
 
 function Draw()
 {
+  //CLEARING REPEATING FRAMES
   
-	ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+	//CANVAS SQUARES LOOP
 
   ctx.beginPath();
   for (let y = 0; y + squareHeight <= canvas.height;y+= squareHeight){
@@ -92,14 +138,14 @@ function Draw()
     }
 }
 
-ctx.stroke();
+	//DRAW EVERTYING
 
-	ctx.drawImage(player_img,player_x,player_y,player_width,player_height);
+	ctx.stroke();
 
-	if (dead == false){
-		ctx.drawImage(apple_img,apple_x,apple_y
-    ,50,50);
-	}
+	ctx.drawImage(player_img,player_x-3,player_y-3,player_width,player_height);
+
+	
+		ctx.drawImage(apple_img,apple_x,apple_y,50,50);
 
   
 }
@@ -132,6 +178,5 @@ function KeyDown()
 
 
 
-//CHARACTER
 
 
