@@ -19,6 +19,8 @@ var dead = false;
 var squareWidth = 50;
 var squareHeight = 40;
 var score = 0;
+var gameInterval = null;
+
 
 function Init()
 {
@@ -34,8 +36,6 @@ function Init()
 }
 
 
-//set main loop and frame rate
-setInterval(MainLoop, 100);
 
 //listening for keyboard input
 window.addEventListener('keydown', KeyDown);
@@ -71,7 +71,7 @@ function Update()
 		apple_speed_x *= -1;
 	}
 
-    apple_y+=apple_speed_y
+    //apple_y+=apple_speed_y
 
 	if (apple_y > 550){
       apple_speed_y *= -1;
@@ -149,6 +149,32 @@ function Draw()
 
   
 }
+
+function StartGame(){
+	if (gameInterval == null){
+		gameInterval = setInterval(MainLoop,100);
+	}
+}
+
+function RestartGame (){
+	player_x = 0;
+	player_y = 0;
+
+	apple_x = 0;
+	apple_y = 0;
+
+	score = 0;
+	document.getElementById("score"),textContent = score;
+	
+	dead = false;
+}
+function EndGame(){
+	clearInterval(gameInterval);
+	gameInterval = null;
+	alert("Game Over. Thanks for playing!")
+}
+
+
 
 //////////
 //Events

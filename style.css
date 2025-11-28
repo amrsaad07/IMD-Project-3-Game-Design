@@ -21,7 +21,7 @@ nav{
 
 .nav-links{
     margin: 0;
-    padding: 10px 10px 10px 10px;
+    padding: 20px 20px 20px 20px;
     display: flex;
     justify-content: flex-end;
 }                   
@@ -42,6 +42,7 @@ li:hover{
 
 .nav-img{
     width: 50px;
+    padding: 10px 10px 10px 10px;
 }
 
 h1{
@@ -117,21 +118,47 @@ h1{
 
 .score-container{
   display: flex;
-  flex-direction: row;
-  justify-content: fl;
+  justify-content: center;
   padding: 10px 10px 0px 10px;
   margin-left: 20px;
 }
 
 .score-container p{
-  font-size: 30px;
+  font-size: 45px;
   margin-left: 5px;
 }
+
+.play-buttons{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    }
+
+
 
 .canvas{
     display: flex;
     justify-content: space-around;
     margin-top: 30px;
+}
+
+.restart-btn{
+    margin: 10px 10px 10px 10px;
+    width: 200px;
+    height: 75px;
+    font-family: "Chewy", system-ui;
+    font-size: 25px;
+    background-color:dodgerblue;
+    color: aqua;
+    border-radius: 10px;
+    border-color: dodgerblue;
+}
+
+.restart-btn:hover{
+    cursor: pointer;
+    background-color:rgb(117, 186, 255);
 }
 
 footer{

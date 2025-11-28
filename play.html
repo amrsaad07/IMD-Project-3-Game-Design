@@ -26,17 +26,25 @@
 
 <main>
 <div class="score-container">
-  <p>Score:<p>
 
+  <p>Score:<p>
   <p id="score"></p>
 
 </div>
+
+
 <div class="canvas">
   <canvas id="myCanvas" width="600" height="600"
  style="border:1px solid #000000; background-color:rgb(0, 162, 255)">
  Sorry, your browser does not support canvas.
  </canvas>
 </div>
+
+    <div class="play-buttons">
+   <button class="button" onclick="StartGame()"> Start Game </button>
+    <button class="button" onclick="RestartGame()"> Restart </button>
+    <button class="button" onclick="EndGame()"> End Game </button>
+  </div>
 
 </main>
 
