@@ -21,7 +21,8 @@ var squareHeight = 40;
 var score = 0;
 var gameInterval = null;
 
-
+var grow_amount= 10;
+var max_hero_size= 150;
 function Init()
 {
 
@@ -120,6 +121,8 @@ function respawnApple(){
 
 	score ++;
 	document.getElementById("score").textContent = score;;
+player_width += grow_amount;
+player_height += grow_amount;
 
 }
 
@@ -164,9 +167,12 @@ function RestartGame (){
 	apple_y = 0;
 
 	score = 0;
-	document.getElementById("score"),textContent = score;
+	document.getElementById("score").textContent = score;
 	
 	dead = false;
+
+	player_width=50;
+	player_height=50;
 }
 function EndGame(){
 	clearInterval(gameInterval);
